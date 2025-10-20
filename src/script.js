@@ -1,30 +1,13 @@
+import { fetchPuzzleData } from './services/puzzleService.js';
+
+let board = [];
+let solution = [];
 let nSeleccionado = null;
 const n= 9;
 const resultado = document.getElementById("resultado");
 const panelNumeros = document.getElementById("panel_numeros");
 
-var board = [
-  "--74916-5",
-  "2---6-3-9",
-  "-----7-1-",
-  "-586----4",
-  "--3----9-",
-  "--62--187",
-  "9-4-7---2",
-  "67-83----",
-  "81--45---"
-  ]
-  var solution = [
-  "387491625",
-  "241568379",
-  "569327418",
-  "758619234",
-  "123784596",
-  "496253187",
-  "934176852",
-  "675832941",
-  "812945763"
-  ]
+
 
 function crearTablero(){
   resultado.innerHTML = "";
@@ -85,9 +68,16 @@ function verificarNumero(){
   }
 }
 
-function inicio(){
-  crearTablero();
-  crearBotones();
+async function inicio() {
+  try {
+    const data = await fetchPuzzleData();
+    board = data.board;
+    solution = data.solution;
+    crearTablero();
+    crearBotones();
+  } catch (error) {
+    console.error("Error al cargar el puzzle:", error);
+  }
 }
 
 window.onload = inicio;
